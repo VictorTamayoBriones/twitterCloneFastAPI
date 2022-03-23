@@ -255,7 +255,7 @@ def show_tweet():
 def delete_tweet():
     pass
 
-### Update a Tweet
+### Update a Tweet ###
 @app.put(
             path="/tweet/{tweet_id}/update",
             response_model=Tweet,
