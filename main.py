@@ -228,7 +228,9 @@ def update_a_user(user_id: UUID = Path(
     tags=["Tweets"]
 )
 def home():
-    return {"Twitter API": "Working!"}
+    with open("tweets.json", "r", encoding="utf-8") as f:
+        results = json.loads(f.read())
+        return results
 
 ### Post Tweet
 @app.post(
@@ -239,6 +241,7 @@ def home():
     tags=["Tweets"]
 )
 #TODO: complete de logic for post a tweet
+# * Task complete i can post a tweet
 def post_tweet(tweet: Tweet = Body(...)):
     """
     Post Tweet
@@ -273,12 +276,12 @@ def post_tweet(tweet: Tweet = Body(...)):
 
 ### Show a Tweet
 @app.get(
-            path="/tweet/{tweet_id}",
-            response_model=Tweet,
-            status_code=status.HTTP_200_OK,
-            summary="Show a Tweet",
-            tags=["Tweets"]
-        )
+    path="/tweet/{tweet_id}",
+    response_model=Tweet,
+    status_code=status.HTTP_200_OK,
+    summary="Show a Tweet",
+    tags=["Tweets"]
+)
 def show_tweet():
     pass
 
