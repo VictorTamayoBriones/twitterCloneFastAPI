@@ -1,18 +1,5 @@
 [
     {
-        "tweet_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "content": "some content of the tweet",
-        "created_at": "2022-03-27 22:55:21.307360",
-        "updated_at": "2022-03-28 04:55:31.451000+00:00",
-        "by": {
-            "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-            "email": "victor@example.com",
-            "first_name": "victor",
-            "last_name": "tamayo",
-            "birth_date": "2022-03-28"
-        }
-    },
-    {
         "tweet_id": "3fa85f64-5717-4562-b3fc-2c963f66afa9",
         "content": "Somebody visited my repo of the API",
         "created_at": "2022-03-27 22:55:21.307360",

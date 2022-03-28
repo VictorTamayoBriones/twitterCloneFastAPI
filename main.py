@@ -302,16 +302,31 @@ def show_tweet(tweet_id: UUID = Path(..., title="Tweet ID", description="Here yo
 
 
 # ^ Delete a Tweet
+# TODO: should can delete a tweet by ID
+# * Task Complete
 @app.delete(
-                path="/tweet/{tweet_id}/delete",
-                status_code=status.HTTP_204_NO_CONTENT,
-                summary="Delete a Tweet",
-                tags=["Tweets"]
-            )
-def delete_tweet():
-    pass
+    path="/tweet/{tweet_id}/delete",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete a Tweet",
+    tags=["Tweets"]
+)
+def delete_tweet(tweet_id: UUID = Path(..., title="Tweet ID", description="Here you need put the tweet ID", example="3fa85f64-5717-4562-b3fc-2c963f66afa8")):
+    with open("tweets.json", "r", encoding="utf-8") as f:
+        results = json.loads(f.read())
+        results_with_tweet_deleted = [tweet for tweet in results if tweet["tweet_id"] != str(tweet_id) ]
+        tweet_to_delete = [tweet for tweet in results if tweet["tweet_id"] == str(tweet_id) ]
+    if len(tweet_to_delete) == 0:
+        return {"mensaje": f"The Tweet with {tweet_id} ID not found"}
+    else:    
+        with open("tweets.json", "w", encoding="utf-8") as f:
+            f.seek(0)
+            f.write(json.dumps(results_with_tweet_deleted))
+        return {"mensaje": f"The Tweet with {tweet_id} ID was deleted"}
 
-### Update a Tweet ###
+
+
+# ^ Update a Tweet
+# TODO: Should can update a tweet information
 @app.put(
             path="/tweet/{tweet_id}/update",
             response_model=Tweet,
