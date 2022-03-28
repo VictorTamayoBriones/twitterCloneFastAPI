@@ -11,5 +11,18 @@
             "last_name": "tamayo",
             "birth_date": "2022-03-28"
         }
+    },
+    {
+        "tweet_id": "3fa85f64-5717-4562-b3fc-2c963f66afa1",
+        "content": "Hi dear classmate dont copy my repo",
+        "created_at": "2022-03-28 00:53:00.805971",
+        "updated_at": "2022-03-28 06:53:25.632000+00:00",
+        "by": {
+            "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            "email": "user@example.com",
+            "first_name": "string",
+            "last_name": "string",
+            "birth_date": "2022-03-28"
+        }
     }
 ]
