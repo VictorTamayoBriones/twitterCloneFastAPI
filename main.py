@@ -147,12 +147,12 @@ def show_all_users():
             tags=["Users"]
         )
 def show_a_user(
-                user_id: UUID = Path(
-                    ...,
-                    title="User UUID",
-                    description="This is the User UUID",
-                    example="3fa85f64-5717-4562-b3fc-2c963f66afa8")
-                ):
+    user_id: UUID = Path(
+        ...,
+        title="User UUID",
+        description="This is the User UUID",
+        example="3fa85f64-5717-4562-b3fc-2c963f66afa8")
+):
     with open("users.json", "r", encoding="utf-8") as f:
         results = json.loads(f.read())
     user = [user for user in results if user["user_id"] == str(user_id)]
@@ -219,7 +219,10 @@ def update_a_user(user_id: UUID = Path(
 
 ## ? Tweets
 # FIXME: fix the tweets 
-### ^Show all Tweets
+
+# ^ Show all Tweets
+#TODO: Should show all tweets
+# * Task Complete
 @app.get(
     path="/",
     response_model=list[Tweet],
@@ -232,7 +235,10 @@ def home():
         results = json.loads(f.read())
         return results
 
-### Post Tweet
+
+# ^ Post Tweet
+#TODO: complete de logic for post a tweet
+# * Task complete i can post a tweet
 @app.post(
     path="/post",
     response_model=Tweet,
@@ -240,8 +246,6 @@ def home():
     summary="Post a Tweet",
     tags=["Tweets"]
 )
-#TODO: complete de logic for post a tweet
-# * Task complete i can post a tweet
 def post_tweet(tweet: Tweet = Body(...)):
     """
     Post Tweet
@@ -274,7 +278,10 @@ def post_tweet(tweet: Tweet = Body(...)):
         print(results)
         return tweet
 
-### Show a Tweet
+
+# ^ Show a Tweet
+# TODO: Should show a tweet by id
+# * Task Complete
 @app.get(
     path="/tweet/{tweet_id}",
     response_model=Tweet,
@@ -282,10 +289,19 @@ def post_tweet(tweet: Tweet = Body(...)):
     summary="Show a Tweet",
     tags=["Tweets"]
 )
-def show_tweet():
-    pass
+def show_tweet(tweet_id: UUID = Path(..., title="Tweet ID", description="Here you need put the tweet ID", example="3fa85f64-5717-4562-b3fc-2c963f66afa8")):
+    with open("tweets.json", "r", encoding="utf-8") as f:
+        results = json.loads(f.read())
+    tweet = [tweet for tweet in results if tweet["tweet_id"] == str(tweet_id)]
+    return Tweet(tweet_id=tweet[0]["tweet_id"], 
+                content=tweet[0]["content"], 
+                created_at=tweet[0]["created_at"], 
+                updated_at=tweet[0]["updated_at"], 
+                by=tweet[0]["by"])
 
-### Delete a Tweet
+
+
+# ^ Delete a Tweet
 @app.delete(
                 path="/tweet/{tweet_id}/delete",
                 status_code=status.HTTP_204_NO_CONTENT,
