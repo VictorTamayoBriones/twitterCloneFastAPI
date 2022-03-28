@@ -12,7 +12,9 @@ from fastapi import Body, FastAPI, Path, status
 
 app = FastAPI()
 
-# Models
+# ^ Models
+
+# ? U S E R M O D E L
 class UserBase(BaseModel):
     user_id: UUID = Field(...)
     email: EmailStr = Field(...)
@@ -22,28 +24,29 @@ class UserLogin(UserBase):
 
 class User(UserBase):
     first_name: str = Field(
-                        ...,
-                        min_length=1,
-                        max_length=50                
-                    )
+        ...,
+        min_length=1,
+        max_length=50                
+    )
+
     last_name: str = Field(
-                        ...,
-                        min_length=1,
-                        max_length=50                
-                    )
+        ...,
+        min_length=1,
+        max_length=50                
+    )
     birth_date: Optional[date] = Field(default=None)
 
 class UserRegister(User, UserLogin):
     pass
 
-
+# TODO: analize the model of the tweet for organize the routes and manage the information
 class Tweet(BaseModel):
     tweet_id: UUID = Field(...)
     content: str = Field(
-                        ..., 
-                        min_length=1, 
-                        max_length=256
-                    )
+        ..., 
+        min_length=1, 
+        max_length=256
+    )
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)
     by: User = Field(...)
@@ -210,27 +213,28 @@ def update_a_user(user_id: UUID = Path(
                 first_name=str(user_new["first_name"]),
                 last_name=str(user_new["last_name"]),
                 birth_date=str(user_new["birth_date"]))
-## Tweets
 
+## ? Tweets
+# FIXME: fix the tweets 
 ### Show all Tweets
 @app.get(
-            path="/",
-            response_model=list[Tweet],
-            status_code=status.HTTP_200_OK,
-            summary="Show all Tweets",
-            tags=["Tweets"]
-        )
+    path="/",
+    response_model=list[Tweet],
+    status_code=status.HTTP_200_OK,
+    summary="Show all Tweets",
+    tags=["Tweets"]
+)
 def home():
     return {"Twitter API": "Working!"}
 
 ### Post Tweet
 @app.post(
-            path="/post",
-            response_model=Tweet,
-            status_code=status.HTTP_201_CREATED,
-            summary="Post a Tweet",
-            tags=["Tweets"]
-        )
+    path="/post",
+    response_model=Tweet,
+    status_code=status.HTTP_201_CREATED,
+    summary="Post a Tweet",
+    tags=["Tweets"]
+)
 def post_tweet():
     pass
 
