@@ -39,14 +39,17 @@ class User(UserBase):
 class UserRegister(User, UserLogin):
     pass
 
+# ? Tweet Model
 # TODO: analize the model of the tweet for organize the routes and manage the information
 class Tweet(BaseModel):
     tweet_id: UUID = Field(...)
+
     content: str = Field(
         ..., 
         min_length=1, 
         max_length=256
     )
+
     created_at: datetime = Field(default=datetime.now())
     updated_at: Optional[datetime] = Field(default=None)
     by: User = Field(...)
@@ -216,7 +219,7 @@ def update_a_user(user_id: UUID = Path(
 
 ## ? Tweets
 # FIXME: fix the tweets 
-### Show all Tweets
+### ^Show all Tweets
 @app.get(
     path="/",
     response_model=list[Tweet],
@@ -235,8 +238,38 @@ def home():
     summary="Post a Tweet",
     tags=["Tweets"]
 )
-def post_tweet():
-    pass
+#TODO: complete de logic for post a tweet
+def post_tweet(tweet: Tweet = Body(...)):
+    """
+    Post Tweet
+
+    This Path Operation post a tweet in the app
+
+    Parameters:
+    - Request Body Parameter
+    
+    Returns a json with the basic user information
+    - tweet_id: UUID
+    - content: const Str
+    - created_at: datetime
+    - updates_at: Optional datatime
+    - by: User
+    """
+    with open("tweets.json", "r+", encoding="utf-8") as f:
+        results = json.loads(f.read())
+        tweet_dict = tweet.dict()
+        tweet_user_dict = tweet_dict["by"]
+    
+        tweet_dict["tweet_id"] = str(tweet_dict["tweet_id"])
+        tweet_dict["created_at"] = str(tweet_dict["created_at"])
+        tweet_dict["updated_at"] = str(tweet_dict["updated_at"])
+        tweet_user_dict["user_id"] = str(tweet_user_dict["user_id"])
+        tweet_user_dict["birth_date"] = str(tweet_user_dict["birth_date"])
+        results.append(tweet_dict)
+        f.seek(0)
+        f.write(json.dumps(results))
+        print(results)
+        return tweet
 
 ### Show a Tweet
 @app.get(
